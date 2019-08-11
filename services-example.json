@@ -1,16 +1,4 @@
 services = '[ \
-  { "icon":"https://san-unifi.ntsj.com:8443/manage/images/favicons/favicon-32.png?v=2", "url":"https://san-unifi.ntsj.com:8443/manage/site/8qaygsft/devices/1/50", "name":"UniFi - NTSJ" }, \
-  { "icon":"https://san-vcenter.ntsj.com/websso/resources/img/favicon.ico", "url":"https://san-vcenter.ntsj.com/", "name":"VMware vCenter" }, \
-  { "icon":"https://san-esxi.ntsj.com/ui/favicon.ico", "url":"https://san-esxi.ntsj.com/ui/#/login", "name":"VMware ESXi (Use vCenter Instead)" }, \
-  { "icon":"https://san-nas.ntsj.com/static/storageadmin/img/favicon.ico", "url":"https://san-nas.ntsj.com/", "name":"RockStore" }, \
-  { "icon":"http://san-plex:32400/web/favicon.ico", "url":"https://san-plex.ntsj.com:32400/web/index.html#!/settings/server/fd06e7af1010b59a9f01c6ceb70f1090aa240c64/settings/network", "name":"Plex" }, \
-  { "icon":"http://san-portainer.ntsj.com/5ba13dcb526292ae707310a54e103cd1.png", "url":"http://san-portainer.ntsj.com/#/home", "name":"Portainer" }, \
-  { "icon":"http://san-mbp001:5005/sonos-icon.png", "url":"http://san-mbp001:5005/", "name":"Sonos API" }, \
-  { "icon":"https://san-cisco-c240.ntsj.com/images/favicon.ico", "url":"https://san-cisco-c240.ntsj.com/login.html", "name":"Cisco ICM" }, \
-  { "icon":"https://www.mailgun.com/wp-content/uploads/2017/03/favicon.png", "url":"https://app.mailgun.com/app/dashboard", "name":"Dashboard: Overview - Mailgun" }, \
-  { "icon":"http://san-transmission.ntsj.com/transmission/web/images/favicon.ico", "url":"http://san-transmission.ntsj.com/transmission/web/", "name":"Transmission Web Interface" }, \
-  { "icon":"http://san-sonarr.ntsj.com/Content/Images/favicon.ico", "url":"http://san-sonarr.ntsj.com/", "name":"Sonarr" }, \
-  { "icon":"http://san-radarr.ntsj.com/Content/Images/favicon/favicon.ico", "url":"http://san-radarr.ntsj.com/", "name":"Radarr Movies" }, \
-  { "icon":"http://san-jackett.ntsj.com/favicon.ico?", "url":"http://san-jackett.ntsj.com/UI/Dashboard", "name":"Jackett" }, \
-  { "icon":"http://san-nvr.ntsj.com/favicon.ico", "url":"http://san-nvr.ntsj.com/", "name":"Security NVR" } \
+  { "icon":"https://unifi.local:8443/manage/images/favicons/favicon-32.png?v=2", "url":"https://unifi.local:8443/manage/site/8qaygsft/devices/1/50", "name":"UniFi" }, \
+  { "icon":"https://vcenter.local/websso/resources/img/favicon.ico", "url":"https://vcenter.local/", "name":"VMware vCenter" } \
 ] ';
