@@ -7,4 +7,4 @@
 * Create valid entries in services.json
 
 ## Screenshot
-![](https://imgur.com/ivfD9DC)
+![](https://i.imgur.com/ivfD9DC.png, "Screenshot")
