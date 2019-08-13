@@ -12,6 +12,7 @@ body
     font-size: 28pt;
     width: 100%;
     height: 75px;
+	display: flow-root;
 }
 
 .service-container 
@@ -37,6 +38,25 @@ body
     background-color: darkslateblue;
     position: relative;
     box-shadow: 5px 5px 5px #111;
+}
+
+.button
+{
+    font-family: Roboto, "Segoe UI", Tahoma, sans-serif; 
+    background-color: blue;
+	border: 0;
+	width: 125px;
+	min-width: 125px;
+	float: right;
+    border-radius: 13px;
+    box-shadow: 5px 5px 5px #111;
+	outline: none;
+}
+
+.button:hover
+{
+    background-color: yellow;
+	outline: none;
 }
 
 .favico 

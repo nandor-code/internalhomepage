@@ -1,4 +1,4 @@
 services = '[ \
-  { "icon":"https://unifi.local:8443/manage/images/favicons/favicon-32.png?v=2", "url":"https://unifi.local:8443/manage/site/8qaygsft/devices/1/50", "name":"UniFi" }, \
-  { "icon":"https://vcenter.local/websso/resources/img/favicon.ico", "url":"https://vcenter.local/", "name":"VMware vCenter" } \
+  { "adv": true, "icon":"https://unifi.local:8443/manage/images/favicons/favicon-32.png?v=2", "url":"https://unifi.local:8443/manage/site/8qaygsft/devices/1/50", "name":"UniFi" }, \
+  { "adv": false, "icon":"https://vcenter.local/websso/resources/img/favicon.ico", "url":"https://vcenter.local/", "name":"VMware vCenter" } \
 ] ';
