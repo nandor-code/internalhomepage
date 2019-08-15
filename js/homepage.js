@@ -1,17 +1,19 @@
 var srvs;
+var sonosState = "";
+var sonosColor = "green";
+var sonosHoverColor = "darkgreen";
+var config;
 
 $(document).ready(function()
 {
     // bring in custom configs
-    var config = new homePageConfig();
+    config = new homePageConfig();
 
     var table = document.getElementById("services");
 
     var button = document.getElementById("toggleAdv");
 
-    buildTable( table, button);
-
-    setAdvButton( config, button);
+    buildTable( table, button );
 
     table.style.width = config.serviceWidth;
 
@@ -44,15 +46,27 @@ $(document).ready(function()
     }
     document.body.style.backgroundImage = 'url("' + config.bgImage + '")';
     document.body.style.backgroundColor = config.bgColor;
-
-    addListeners(config);
 });
 
-function setAdvButton( config, button )
+function setAdvButton( button )
 {
     if( config.advDefault )
     {
         toggleAdv( button );
+    }
+}
+
+function toggleSonos(sonosButton)
+{
+    if( sonosButton.value == 1 ) // enabled
+    {
+        sonosButton.value = 0;
+        getUrl('helpers/sonos.php?setstate=0', function(resp) { location.reload(); } );
+    }
+    else
+    {
+        sonosButton.value = 1;
+        getUrl('helpers/sonos.php?setstate=1', function(resp) { location.reload(); } );
     }
 }
 
@@ -86,28 +100,42 @@ function toggleAdv(advButton)
     }
 }
 
-function buildTable(table, advButton)
+function buildTable(table, advButton )
 {
-    srvs = JSON.parse(services);
-    var i;
-
-    for( i = 0; i < srvs.length; i++ )
+    getUrl(config.servicesJson, function(resp) 
     {
-        //console.log(srvs[i].name + " " + srvs[i].url +  " " + srvs[i].icon );
-        var row = table.insertRow(-1);
-        row.classList.add("service-item");
-        var icon = row.insertCell(-1);
-        var link = row.insertCell(-1);
-        icon.classList.add("service-data-img");
-        icon.innerHTML = '<img class="favico" src="' + srvs[i].icon + '">';
-        link.classList.add("service-data-link");
-        link.innerHTML = '<A target="_blank" class="service-link" HREF="' + srvs[i].url + '">' + srvs[i].name + '</A>';
-        table.rows[i].style.visibility = srvs[i].adv ? 'collapse' : 'visible';
-    }
+        srvs = JSON.parse(resp);
+        var i;
+
+        for( i = 0; i < srvs.length; i++ )
+        {
+            var row = table.insertRow(-1);
+            row.classList.add("service-item");
+            var icon = row.insertCell(-1);
+            var link = row.insertCell(-1);
+            icon.classList.add("service-data-img");
+            icon.innerHTML = '<img class="favico" src="' + srvs[i].icon + '">';
+            link.classList.add("service-data-link");
+            link.innerHTML = '<A target="_blank" class="service-link" HREF="' + srvs[i].url + '">' + srvs[i].name + '</A>';
+            row.value = srvs[i].name;
+            table.rows[i].style.visibility = srvs[i].adv ? 'collapse' : 'visible';
+       }
+    
+        if( config.enableSonosState ) 
+        {
+            getSonosState();
+        }
+        else
+        {
+            addListeners();
+        }
+
+        setAdvButton( advButton );
+    });
 
 }
 
-function addListeners(config)
+function addListeners()
 {
     var button = document.getElementById("toggleAdv");
 
@@ -120,4 +148,68 @@ function addListeners(config)
         //console.log( "mouseout" );
         button.style.backgroundColor = config.advButtonColor;
     });
+
+    button = document.getElementById("toggleSonos");
+
+    button.addEventListener('mouseenter', e => {
+        //console.log( "mousein" );
+        button.style.backgroundColor = sonosHoverColor;
+    });
+
+    button.addEventListener('mouseleave', e => {
+        //console.log( "mouseout" );
+        button.style.backgroundColor = sonosColor;
+    });
+}
+
+function getSonosState()
+{
+    getUrl('helpers/sonos.php', function(resp) 
+    {
+        var state = JSON.parse(resp).status;
+
+        if( state )
+        {
+            sonosState = "<button value='1' id='toggleSonos' onclick='toggleSonos(this);' class=sonos_button style='color: white; background-color: green'>Enabled</button>";
+            sonosColor = "green";
+            sonosHoverColor = "darkgreen";
+        }
+        else
+        {
+            sonosState = "<button value='0' id='toggleSonos' onclick='toggleSonos(this);' class=sonos_button style='color: white; background-color: red'>Disabled</button>";
+            sonosColor = "red";
+            sonosHoverColor = "darkred";
+        }
+
+        var table = document.getElementById("services");
+        var i;
+        for( i = 0; i < table.rows.length; i++ )
+        {
+            if( table.rows[i].value === "Sonos API") 
+            {
+                table.rows[i].cells[1].innerHTML = '<A target="_blank" class="service-link" HREF="' + srvs[i].url + '">' + srvs[i].name + '</A>' + sonosState;
+            }
+        }
+
+        addListeners();
+    });
+}
+
+function getUrl(url, callback)
+{
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.open("GET", url, true);
+    xhttp.onreadystatechange = function ()
+    {
+        if(xhttp.readyState === 4)
+        {
+            if(xhttp.status === 200 || xhttp.status == 0)
+            {
+                var response = xhttp.responseText;
+                callback( response );
+            }
+        }
+    }
+    xhttp.send(null);
 }

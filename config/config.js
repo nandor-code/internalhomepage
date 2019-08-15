@@ -14,6 +14,8 @@ class homePageConfig
         this.advDefault = true;                            // show advanced by default?
         this.bgColor = "black";                            // page bg color - only if no image is used.
         this.bgImage = "./images/dark-texture-bkg.jpg";    // page background image.
+        this.enableSonosState = false;                     // enable Sonos state checking
+        this.servicesJson = "config/services.json";        // location of services json file.
     }
 }
 

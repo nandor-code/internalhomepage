@@ -40,6 +40,21 @@ body
     box-shadow: 5px 5px 5px #111;
 }
 
+.sonos_button
+{
+    font-family: Roboto, "Segoe UI", Tahoma, sans-serif; 
+    background-color: blue;
+	border: 0;
+	width: 125px;
+	min-width: 125px;
+	float: right;
+    border-radius: 13px;
+    box-shadow: 5px 5px 5px #111;
+	outline: none;
+	float: right;
+	margin-right: 25px;
+}
+
 .button
 {
     font-family: Roboto, "Segoe UI", Tahoma, sans-serif; 
