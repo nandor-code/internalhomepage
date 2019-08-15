@@ -149,17 +149,20 @@ function addListeners()
         button.style.backgroundColor = config.advButtonColor;
     });
 
-    button = document.getElementById("toggleSonos");
+    if( config.enableSonosState )
+    {
+        button = document.getElementById("toggleSonos");
 
-    button.addEventListener('mouseenter', e => {
-        //console.log( "mousein" );
-        button.style.backgroundColor = sonosHoverColor;
-    });
+        button.addEventListener('mouseenter', e => {
+            //console.log( "mousein" );
+            button.style.backgroundColor = sonosHoverColor;
+        });
 
-    button.addEventListener('mouseleave', e => {
-        //console.log( "mouseout" );
-        button.style.backgroundColor = sonosColor;
-    });
+        button.addEventListener('mouseleave', e => {
+            //console.log( "mouseout" );
+            button.style.backgroundColor = sonosColor;
+        });
+	}
 }
 
 function getSonosState()
