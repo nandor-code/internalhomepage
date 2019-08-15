@@ -1,0 +1,7 @@
+[
+	{ "name":"san-nas", "url":"http://san-nas:19999" },
+	{ "name":"san-plex", "url":"http://san-plex:19999" },
+	{ "name":"san-mbp-001", "url":"http://san-mbp-001:19999" },
+	{ "name":"san-mbp-002", "url":"http://san-mbp-002:19999" },
+	{ "name":"san-mbp-003", "url":"http://san-mbp-003:19999" }
+]
