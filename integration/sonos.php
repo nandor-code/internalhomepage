@@ -27,7 +27,7 @@ if( isset($get) )
 	header("Content-Type: application/json");
 	
 	$json = json_decode( file_get_contents( $config['host'] . "/" . $get . "/state" ) );
-	$s = $json->playbackState == "PLAYING";
+	$s = $json->playbackState == "PLAYING" || $json->playbackState == "TRANSITIONING";
 	
 	$response = array(
    	     'playing' => $s,
@@ -42,7 +42,7 @@ if( isset($get) )
 <html lang="en">
 	<title>Sonos Controller</title>
 	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'><script src='https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js'></script>
-	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
     <link id="sonosStyle" rel='stylesheet' href='/css/sonos.css'>
 	<h1 class="logo">SONOS</h1>
 	<body>
@@ -58,16 +58,13 @@ if( isset($get) )
 	print "<ul>\n";
 	foreach ( $sonosJson as $key => $c )
 	{
-		$playing = $c->coordinator->state->playbackState == "PLAYING" ? true : false;
-		
 		print "<li>\n";
 		if( count($c->members) > 1 )
 		{
 			$cb++;
 			echo '<input type="checkbox" checked="checked" id="c' . $cb .'" />';
-			echo '<label class="tree_label" for="c'.$cb.'">' . $c->coordinator->roomName . "</label>" . getPlayText($c);
-			echo $playing ? "<button value='1' id='toggleSonos' onclick='toggleSonos(" . getSonosUrl( $config['host'], false, $c->coordinator->roomName ) . ");' class=button>Playing</button>" : 
-						    "<button value='1' id='toggleSonos' onclick='toggleSonos(" . getSonosUrl( $config['host'], true, $c->coordinator->roomName ) . ");' class=button_stopped>Stopped</button>";
+			echo '<label class="tree_label" for="c'.$cb.'">' . $c->coordinator->roomName . "</label>" . getPlayText($config, $c);
+			echo "<button value='0' id='toggle" . $c->coordinator->roomName . "' onclick='toggleSonos(" . getSonosUrl( $config['host'], $c->coordinator->roomName ) . ");' class=button>Playing</button>";
 			echo '<ul>';
 			foreach ( $c->members as $key=> $m )
 			{
@@ -81,9 +78,8 @@ if( isset($get) )
 		}
 		else
 		{
-			echo '<span class="tree_label">' . $c->coordinator->roomName . getPlayText($c) . '</span>';
-			echo $playing ? "<button value='1' id='toggleSonos' onclick='toggleSonos(" . getSonosUrl( $config['host'], false, $c->coordinator->roomName ) . ");' class=button>Playing</button>" : 
-						    "<button value='1' id='toggleSonos' onclick='toggleSonos(" . getSonosUrl( $config['host'], true, $c->coordinator->roomName ) . ");' class=button_stopped>Stopped</button>";
+			echo '<span class="tree_label">' . $c->coordinator->roomName . '</span>' . getPlayText($config, $c);
+			echo "<button value='0' id='toggle" . $c->coordinator->roomName . "' onclick='toggleSonos(" . getSonosUrl( $config['host'], $c->coordinator->roomName ) . ");' class=button>Playing</button>";
 		}
 		echo "</li>\n";
 	}
@@ -94,41 +90,119 @@ if( isset($get) )
 </html>
 
 <script>
-function toggleSonos( url, play, zone )
+
+$(document).ready(function()
 {
+<?php
+	foreach ( $sonosJson as $key => $c )
+	{
+		print "checkPlaying(\"" . $config['host'] . "\", \"" . $c->coordinator->roomName . "\", 10000);\n";
+	}
+?>
+});
+
+function toggleSonos( host, play, zone )
+{
+	//console.log(play);
 	var setUrl = window.location.href + "?setstate=";
-	setUrl += play ? "1" : "0";
+	setUrl += play;
 	
-	console.log( setUrl );
+	//console.log( setUrl );
 	getUrl( setUrl, function( resp )
 	{
-		console.log( resp );
+		//console.log( resp );
+		
+		var url = host + "/" + zone + (play == 1 ?"/play":"/pause");
+		//console.log(url);
 		
 		getUrl( url, function(resp) 
 		{
-			console.log( resp );
-			waitForState( play, zone );
+			//console.log( resp );
+			waitForState( host, play, zone );
 		});
 	});
 }
 
-function waitForState( play, zone )
+function sonosNext( host, zone )
+{
+	var url = host + "/" +  zone + "/next";
+	getUrl( url, function( resp )
+	{
+		//console.log( resp );
+		setTimeout( function() { checkPlaying( host, zone, -1 ); }, 1000 );
+		
+	});
+}
+
+function waitForState( host, play, zone )
 {
 	getUrl( window.location.href + "?getstate=" + zone, function( resp )
 	{
 		var state = JSON.parse(resp);
-		console.log(state);
+		//console.log(state);
 		if( state.playing == play )
 		{
-			location.reload(true);
+			setTimeout( function() { checkPlaying( host, zone, -1 ); }, 10 );
 		}
 		else
 		{
-			setTimeout( function() { waitForState( play, zone ); }, 500 );
+			setTimeout( function() { waitForState( host, play, zone ); }, 500 );
 		}
 	});
 }
 
+function checkPlaying( host, zone, repeatTime )
+{
+	var url = host + "/" + zone + "/state";
+	//console.log(url);
+	
+	getUrl( url, function( resp )
+	{
+		var state = JSON.parse(resp);
+		//console.log(state);
+		if( repeatTime > 0 )
+		{
+			setTimeout( function() { checkPlaying( host, zone, repeatTime ); }, repeatTime );
+		}
+		
+		updateSonosButton( zone, state );
+	});
+}
+
+function updateSonosButton( zone, state )
+{
+	var updateObj = document.getElementById(zone);
+	
+	if( state.currentTrack.type === "line_in" )
+	{
+		updateObj.innerHTML = "TV";
+	}
+	else if( state.playbackState === "STOPPED" )
+	{
+		updateObj.innerHTML = "None";
+	}
+	else
+	{
+		updateObj.innerHTML = "<img class=\"albumArt\" src=\"" + state.currentTrack.absoluteAlbumArtUri + "\">" + state.currentTrack.title + " on " + state.currentTrack.stationName;
+	}
+	
+	var updateObj = document.getElementById("toggle" + zone);
+	
+	if( state.playbackState === "PLAYING" || state.playbackState === "TRANSITIONING" )
+	{
+		updateObj.innerHTML = "Playing";
+		updateObj.value = 0;
+		updateObj.classList.add("button");
+		updateObj.classList.remove("button_stopped");
+	}
+	else
+	{
+		updateObj.innerHTML = "Stopped";
+		updateObj.value = 1;
+		updateObj.classList.remove("button");
+		updateObj.classList.add("button_stopped");
+	}
+}
 
 function getUrl(url, callback)
 {
@@ -152,41 +226,21 @@ function getUrl(url, callback)
 
 
 <?php
-function getPlayText($coord)
+function getPlayText($config, $coord)
 {
-	$ret = "<button class='playText'>";
-	if( $coord->coordinator->state->currentTrack->type == "line_in" )
-	{
-		$ret .= 'TV';
-	}
-	else if( $coord->coordinator->state->playbackState == "STOPPED" )
-	{
-		$ret .= 'None';
-	}
-	else
-	{
-		$ret .= '<img style="max-height: 25px; max-width: 25px; float: left; margin-left: 5%" src="' . $coord->coordinator->state->currentTrack->absoluteAlbumArtUri . '">'. $coord->coordinator->state->currentTrack->title . ' on ' . $coord->coordinator->state->currentTrack->stationName;
-	}
+	$ret = "<button onclick='sonosNext(\"" . $config['host'] . "\",\"" . $coord->coordinator->roomName . "\");' id='";
+	$ret .=	$coord->coordinator->roomName;
+	$ret .= "' class='playText'>";
 	
 	$ret .= "</button>";
 	
 	return $ret;
 }
 
-function getSonosUrl($host,$play,$zone)
+function getSonosUrl($host,$zone)
 {
-	$ret = "\"" . $host . "/" . $zone;
-	
-	if( $play )
-	{
-		$ret .= "/play\"";
-	}
-	else
-	{
-		$ret .= "/pause\"";
-	}
-	
-	$ret .= $play ? ", true" : ", false";
+	$ret = "\"" . $host . "\"";
+	$ret .= ", this.value";
 	$ret .= ", \"$zone\"";
 	
 	return $ret;
