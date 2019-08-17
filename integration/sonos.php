@@ -179,16 +179,12 @@ function sonosNext( host, zone )
 
 function setPreset( host, preset )
 {
-	var setUrl = window.location.href + "?setpreset=" + preset;
-	getUrl( setUrl, function( resp )
+	var preSetUrl = host + "/preset/" + preset;
+	console.log( resp );
+	
+	getUrl( preSetUrl, function( resp )
 	{
-		var preSetUrl = host + "/preset/" + preset;
 		console.log( resp );
-		
-		getUrl( preSetUrl, function( resp )
-		{
-			console.log( resp );
-		});
 	});
 }
 
