@@ -180,7 +180,6 @@ function sonosNext( host, zone )
 function setPreset( host, preset )
 {
 	var preSetUrl = host + "/preset/" + preset;
-	console.log( resp );
 	
 	getUrl( preSetUrl, function( resp )
 	{
