@@ -28,7 +28,6 @@ if( isset($setpre) )
 	header("Content-Type: application/json");
 	
 	$s = file_put_contents( "/tmp/house_preset", $setpre);
-	$s = file_put_contents( "/tmp/house_init", $setpre);
 
 	$response = array(
    	     'success' => $s,
@@ -179,11 +178,16 @@ function sonosNext( host, zone )
 
 function setPreset( host, preset )
 {
-	var preSetUrl = host + "/preset/" + preset;
-	
-	getUrl( preSetUrl, function( resp )
+	var setUrl = window.location.href + "?setpreset=" + preset;
+	getUrl( setUrl, function( resp )
 	{
+		var preSetUrl = host + "/preset/" + preset;
 		console.log( resp );
+		
+		getUrl( preSetUrl, function( resp )
+		{
+			console.log( resp );
+		});
 	});
 }
 
