@@ -120,7 +120,7 @@ if( isset($get) )
 				foreach ( $presetsJson as $key => $p )
 				{
 					echo '<li class="list__item">';;
-					echo '<input type="radio" onchange="setPreset(\'' . $p . '\');" class="radio-btn" name="choice" id="' . $i . '-opt" ' . ($p == $currentPreset ? "checked" : "" ) . '>';
+					echo '<input type="radio" onchange="setPreset(\'' . $config['host'] . '\', \'' . $p . '\');" class="radio-btn" name="choice" id="' . $i . '-opt" ' . ($p == $currentPreset ? "checked" : "" ) . '>';
 					echo '<label for="' . $i . '-opt" class="label">' . $p . '</label>';
 					echo '</li>';
 					$i++;
@@ -177,12 +177,18 @@ function sonosNext( host, zone )
 	});
 }
 
-function setPreset( preset )
+function setPreset( host, preset )
 {
 	var setUrl = window.location.href + "?setpreset=" + preset;
 	getUrl( setUrl, function( resp )
 	{
+		var preSetUrl = host + "/preset/" + preset;
 		console.log( resp );
+		
+		getUrl( preSetUrl, function( resp )
+		{
+			console.log( resp );
+		});
 	});
 }
 
