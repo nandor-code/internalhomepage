@@ -5,6 +5,7 @@ $config = array(
 );
 
 $set = $_GET['setstate'];
+$setpre = $_GET['setpreset'];
 $get = $_GET['getstate'];
 
 if( isset($set) )
@@ -12,6 +13,22 @@ if( isset($set) )
 	header("Content-Type: application/json");
 	
 	$s = file_put_contents( "/tmp/house_music", $set);
+
+	$response = array(
+   	     'success' => $s,
+	    );
+	
+	echo json_encode($response);
+	
+	return;
+}
+
+if( isset($setpre) )
+{
+	header("Content-Type: application/json");
+	
+	$s = file_put_contents( "/tmp/house_preset", $setpre);
+	$s = file_put_contents( "/tmp/house_init", $setpre);
 
 	$response = array(
    	     'success' => $s,
@@ -46,10 +63,16 @@ if( isset($get) )
     <link id="sonosStyle" rel='stylesheet' href='/css/sonos.css'>
 	<h1 class="logo">SONOS</h1>
 	<body>
+	<div class='main-container'>
+	<h2 class="heading">Zone Controller</h2>
 <?php
 
 	$sonosJson = json_decode( file_get_contents( $config['host'] . "/zones" ) );
 
+	$presetsJson = json_decode( file_get_contents( $config['host'] . "/preset" ) );
+	
+	$currentPreset = trim( file_get_contents( "/tmp/house_preset" ) );
+	
 	echo "<ul class='tree'>\n";
 	$cb = 1;
 	echo '<li>';
@@ -84,8 +107,28 @@ if( isset($get) )
 		echo "</li>\n";
 	}
 	echo "</ul>\n";
+	echo "</li>\n";
+	echo "</ul>\n";
+
 ?>
 
+	<h2 class="heading">House Music Playlist</h2>
+		<div class="container">
+			<ul class="list">
+<?php
+				$i = 1;
+				foreach ( $presetsJson as $key => $p )
+				{
+					echo '<li class="list__item">';;
+					echo '<input type="radio" onchange="setPreset(\'' . $p . '\');" class="radio-btn" name="choice" id="' . $i . '-opt" ' . ($p == $currentPreset ? "checked" : "" ) . '>';
+					echo '<label for="' . $i . '-opt" class="label">' . $p . '</label>';
+					echo '</li>';
+					$i++;
+				}
+?>
+			</ul>
+		</div>
+	</div>
     </body>
 </html>
 
@@ -131,6 +174,15 @@ function sonosNext( host, zone )
 		//console.log( resp );
 		setTimeout( function() { checkPlaying( host, zone, -1 ); }, 1000 );
 		
+	});
+}
+
+function setPreset( preset )
+{
+	var setUrl = window.location.href + "?setpreset=" + preset;
+	getUrl( setUrl, function( resp )
+	{
+		console.log( resp );
 	});
 }
 

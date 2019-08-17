@@ -1,3 +1,74 @@
+ * {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background: linear-gradient(to right bottom, #1b1b1e, #333);
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  #min-height: 100vh;
+  margin-left: 5%;
+}
+
+.list {
+  flex: 0 0 15rem;
+  padding-top: 25px;
+}
+
+.list__item {
+  position: relative;
+  margin-bottom: 5%;
+}
+.list__item:hover > .label {
+  color: #009688;
+}
+.list__item:hover > .label::before {
+  border: 5px solid #009688;
+  margin-right: 5%;
+}
+
+.radio-btn {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+}
+.radio-btn:checked + .label {
+  color: #009688;
+}
+.radio-btn:checked + .label::before {
+  margin-right: 8%;
+  border: 5px solid #009688;
+  background: #fff;
+}
+
+.label {
+  display: inline;
+  align-items: center;
+  padding: .75rem 0;
+  color: #fff;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s linear;
+}
+
+.label::before {
+  display: inline-block;
+  content: "";
+  height: .75rem;
+  width: .75rem;
+  margin-right: 0.625rem;
+  border: 5px solid #fff;
+  border-radius: 50%;
+  transition: all 0.25s linear;
+}
+
 /* button */
 .button
 {
@@ -16,46 +87,7 @@
 	margin-top: .75em;
 	#left: 45%;
 	min-height: 35px;
-}
-
-.albumArt
-{
-	max-height: 25px; 
-	max-width: 25px; 
-	float: left; 
-	margin-left: 5%;
-}
-
-.button:hover
-{
-    background-color: seagreen;
-	outline: none;
-}
-
-.playText
-{
-    font-family: Roboto, "Segoe UI", Tahoma, sans-serif; 
-    background-color: darkslateblue;
-	color: white;
-	border: 0;
-	width: 35%;
-	min-width: 35%;
-    border-radius: 13px;
-    box-shadow: 5px 5px 5px #111;
-	outline: none;
-	#margin-left: 15%;
-	#position: fixed;
-	float: right;
-	#margin-right: 50%;
-	left: 15%;
-	margin-top: .75em;
-	min-height: 35px;
-	line-height: 25px;
-}
-
-.playText:hover
-{
-    background-color: slateblue;
+	pointer-events: auto;
 }
 
 .button_stopped
@@ -75,6 +107,48 @@
 	margin-top: .75em;
 	#left: 45%;
 	min-height: 35px;
+	pointer-events: auto;
+}
+
+.playText
+{
+    font-family: Roboto, "Segoe UI", Tahoma, sans-serif; 
+    background-color: darkslateblue;
+	color: white;
+	border: 0;
+	width: 55%;
+	min-width: 55%;
+    border-radius: 13px;
+    box-shadow: 5px 5px 5px #111;
+	outline: none;
+	#margin-left: 15%;
+	#position: fixed;
+	float: right;
+	#margin-right: 50%;
+	left: 15%;
+	margin-top: .75em;
+	min-height: 35px;
+	line-height: 25px;
+	pointer-events: auto;
+}
+
+.albumArt
+{
+	max-height: 25px; 
+	max-width: 25px; 
+	float: left; 
+	margin-left: 5%;
+}
+
+.button:hover
+{
+    background-color: seagreen;
+	outline: none;
+}
+
+.playText:hover
+{
+    background-color: slateblue;
 }
 
 .button_stopped:hover
@@ -104,9 +178,10 @@
   line-height: 1.2;
   position: relative;
   padding: 0 0 1em 1em;
+  pointer-events: none;
   }
 
-.tree ul li { padding: 1em 0 0 1em; }
+.tree ul li { padding: 1em 0 0 1em; pointer-events: none; }
 
 .tree > li:last-child { padding-bottom: 0; }
 
@@ -116,12 +191,13 @@
 .tree_label {
   position: relative;
   display: inline-block;
-  background-color: #222;
+  background-color: #333;
   color: white;
+  pointer-events: auto;
   }
 
 label.tree_label { 
-	background-color: #222;
+	background-color: #333;
 	color: white;
 	cursor: pointer; 
 }
@@ -202,7 +278,6 @@ label.tree_label:after { border-bottom: 0; }
   border-radius: 0.3em;
 }
 
-
 @function lower-bound($range){
   @if length($range) <= 0 {
     @return 0;
@@ -239,7 +314,28 @@ $xxlarge-up: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)})";
   body {
     background: #222;
     height: 100%;
-	font-size: 1.5em;
+	font-size: 1.2em;
+  }
+  
+  .heading {
+    font-size: 1.5em;
+    font-family: "Arial Black", Gadget, sans-serif; 
+    text-align: center;
+    background: -webkit-linear-gradient(left, #33235B, #D62229, #E97639, #792042, #33235B);
+    background: linear-gradient(left, #33235B, #D62229, #E97639, #792042, #33235B);
+	background-color: white;
+    padding-top: 5%;
+    color: transparent;
+    
+    -webkit-background-clip: text;
+    -webkit-animation: animate-logo;
+    -webkit-animation-delay: 0;
+    -webkit-animation-duration: 7s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-fill-mode: forwards;
+
+    @include single-transition($property: font-size, $speed: 500ms, $ease: ease-in-out);
   }
 
   .logo {
@@ -303,4 +399,15 @@ $xxlarge-up: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)})";
 @-webkit-keyframes animate-logo {
   0% { background-position: 0 3200px; }
   100% { background-position: 3200px 0; }
+}
+
+.main-container
+{
+	margin: auto;
+    border-radius: 10px;
+    align-items: center; /* Use another value to see the result */
+    width: 75%;
+    padding: 15px;
+    background-color: #333;
+    box-shadow: 10px 10px 5px #111;
 }
