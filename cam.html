@@ -1,0 +1,71 @@
+<html>
+<head>
+<style>
+body {
+	background-color: #222;
+	overflow: hidden;
+}
+
+body {
+  margin: 20px;
+}
+
+.wrapper {
+        display: grid;
+		grid-gap: 5px;
+        grid-template-columns: [col1-start] 60%  [col2-start] 40% ;
+        grid-template-rows: [row1-start] 25% [row2-start] 25% [row3-start] 25% [row4-start] 25% [row4-end];
+        #background-color: #fff;
+        #color: #444;
+		min-height: 100%;
+		min-width: 100%;
+    }
+
+    .box {
+        background-color: #444;
+        color: #fff;
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    .a {
+        grid-column: col1-start / col2-start;
+        grid-row: row1-start / row3-start ;
+    }
+    .b {
+        grid-column: col1-start / col2-start;
+        grid-row: row3-start / row4-end;
+    }
+    .c {
+        grid-column: col2-start;
+        grid-row: row1-start / row2-start;
+    }
+    .d {
+        grid-column: col2-start ;
+        grid-row: row2-start ;
+    }
+    .e {
+        grid-column: col2-start ;
+        grid-row: row3-start ;
+    }
+	.f {
+        grid-column: col2-start ;
+        grid-row: row4-start ;
+    }
+
+</style>
+<title>NTSJ Cam Viewer</title>
+</head>
+<body>
+<div class='wrapper'>
+
+<div class='box a'><iframe src="http://10.10.10.12:8084/player.html?autoplay=1" name="restreamer-player" width="100%" height="100%" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"></iframe></div>
+<div class='box b'><iframe src="http://10.10.10.12:8083/player.html?autoplay=1" name="restreamer-player" width="100%" height="100%" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"></iframe></div>
+<div class='box c'><iframe src="http://10.10.10.12:8081/player.html?autoplay=1" name="restreamer-player" width="100%" height="100%" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"></iframe></div>
+<div class='box d'><iframe src="http://10.10.10.12:8082/player.html?autoplay=1" name="restreamer-player" width="100%" height="100%" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"></iframe></div>
+<div class='box e'><iframe src="http://10.10.10.12:8085/player.html?autoplay=1" name="restreamer-player" width="100%" height="100%" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"></iframe></div>
+<div class='box f'><iframe src="http://10.10.10.12:8086/player.html?autoplay=1" name="restreamer-player" width="100%" height="100%" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"></iframe></div>
+
+</div>
+</body>
+</html>
