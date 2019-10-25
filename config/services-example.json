@@ -1,4 +1,4 @@
-services = '[ \
-  { "adv": true, "icon":"https://unifi.local:8443/manage/images/favicons/favicon-32.png?v=2", "url":"https://unifi.local:8443/manage/site/8qaygsft/devices/1/50", "name":"UniFi" }, \
-  { "adv": false, "icon":"https://vcenter.local/websso/resources/img/favicon.ico", "url":"https://vcenter.local/", "name":"VMware vCenter" } \
-] ';
+[ 
+  { "adv": true, "icon":"https://san-unifi.ntsj.com:8443/manage/images/favicons/favicon-32.png?v=2", "url":"https://san-unifi.ntsj.com:8443/manage/site/8qaygsft/devices/1/50", "name":"UniFi - NTSJ" },
+  { "adv": false, "icon":"http://san-plex.ntsj.com:32400/web/favicon.ico", "url":"https://san-plex.ntsj.com:32400/web/index.html#!/settings/server/fd06e7af1010b59a9f01c6ceb70f1090aa240c64/settings/network", "name":"Plex" },
+]
