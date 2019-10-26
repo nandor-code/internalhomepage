@@ -1,7 +1,7 @@
 <?php
 
 $config = array(
-		'host' => 'http://san-mbp-001.ntsj.com:5005'
+		'host' => 'http://10.10.204.5:5005'
 );
 
 $set = $_GET['setstate'];
@@ -41,8 +41,17 @@ if( isset($setpre) )
 if( isset($get) )
 {
 	header("Content-Type: application/json");
-	
-	$json = json_decode( file_get_contents( $config['host'] . "/" . $get . "/state" ) );
+	$statereply = file_get_contents( $config['host'] . "/" . rawurlencode($get) . "/state" );
+	if($statereply === FALSE) {
+		$error = error_get_last();
+		$response = array (
+			'playing' => 'ERROR',
+			'error_message' => $error['message'],
+		);
+		echo json_encode($response);
+		die;
+	}
+	$json = json_decode( $statereply );
 	$s = $json->playbackState == "PLAYING" || $json->playbackState == "TRANSITIONING";
 	
 	$response = array(
@@ -145,21 +154,22 @@ $(document).ready(function()
 
 function toggleSonos( host, play, zone )
 {
+	//console.log("toggleSonos entered");
 	//console.log(play);
 	var setUrl = window.location.href + "?setstate=";
 	setUrl += play;
 	
-	//console.log( setUrl );
+	// console.log( setUrl );
 	getUrl( setUrl, function( resp )
 	{
-		//console.log( resp );
+		// console.log( resp );
 		
 		var url = host + "/" + zone + (play == 1 ?"/play":"/pause");
-		//console.log(url);
+		// console.log(url);
 		
 		getUrl( url, function(resp) 
 		{
-			//console.log( resp );
+			// console.log( resp );
 			waitForState( host, play, zone );
 		});
 	});
@@ -167,10 +177,11 @@ function toggleSonos( host, play, zone )
 
 function sonosNext( host, zone )
 {
+	// console.log("sonosNext entered");
 	var url = host + "/" +  zone + "/next";
 	getUrl( url, function( resp )
 	{
-		//console.log( resp );
+		// console.log( resp );
 		setTimeout( function() { checkPlaying( host, zone, -1 ); }, 1000 );
 		
 	});
@@ -178,25 +189,28 @@ function sonosNext( host, zone )
 
 function setPreset( host, preset )
 {
+	// console.log("setPreset entered");
 	var setUrl = window.location.href + "?setpreset=" + preset;
 	getUrl( setUrl, function( resp )
 	{
 		var preSetUrl = host + "/preset/" + preset;
-		console.log( resp );
+		// console.log( resp );
 		
 		getUrl( preSetUrl, function( resp )
 		{
-			console.log( resp );
+			// console.log( resp );
 		});
 	});
 }
 
 function waitForState( host, play, zone )
 {
+	// console.log("waitForState entered");
+	// console.log(zone);
 	getUrl( window.location.href + "?getstate=" + zone, function( resp )
 	{
 		var state = JSON.parse(resp);
-		//console.log(state);
+		// console.log(state);
 		if( state.playing == play )
 		{
 			setTimeout( function() { checkPlaying( host, zone, -1 ); }, 10 );
@@ -210,13 +224,14 @@ function waitForState( host, play, zone )
 
 function checkPlaying( host, zone, repeatTime )
 {
+	// console.log("checkPlaying entered");
 	var url = host + "/" + zone + "/state";
-	//console.log(url);
+	// console.log(url);
 	
 	getUrl( url, function( resp )
 	{
 		var state = JSON.parse(resp);
-		//console.log(state);
+		// console.log(state);
 		if( repeatTime > 0 )
 		{
 			setTimeout( function() { checkPlaying( host, zone, repeatTime ); }, repeatTime );
@@ -228,6 +243,7 @@ function checkPlaying( host, zone, repeatTime )
 
 function updateSonosButton( zone, state )
 {
+	// console.log("updateSonosButton entered");
 	var updateObj = document.getElementById(zone);
 	
 	if( state.currentTrack.type === "line_in" )
