@@ -1,8 +1,6 @@
 <?php
 
-$config = array(
-		'host' => 'http://10.10.204.5:5005'
-);
+$config = json_decode(file_get_contents("../config/sonos.json"), true);
 
 $set = $_GET['setstate'];
 $setpre = $_GET['setpreset'];
