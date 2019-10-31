@@ -9,6 +9,15 @@ body {
   background: linear-gradient(to right bottom, #1b1b1e, #333);
 }
 
+.center__text {
+ text-align: center;
+ position: absolute;
+ top: 50%;
+ left: 50%;
+ transform: translate(-50%, -50%);
+ width: 100%;
+}
+
 .container {
   display: flex;
   justify-content: center;
@@ -74,76 +83,78 @@ body {
 {
     font-family: Roboto, "Segoe UI", Tahoma, sans-serif; 
     background-color: mediumseagreen;
-	color: white;
-	border: 0;
-	width: 125px;
-	min-width: 125px;
+    color: white;
+    border: 0;
+    width: 125px;
+    min-width: 125px;
     border-radius: 13px;
     box-shadow: 5px 5px 5px #111;
-	outline: none;
-	position: relative;
-	float: right;
-	margin-right: 1%;
-	margin-top: .75em;
-	#left: 45%;
-	min-height: 35px;
-	pointer-events: auto;
+    outline: none;
+    position: relative;
+    float: right;
+    margin-right: -13%;
+    margin-top: .75em;
+    #left: 45%;
+    min-height: 35px;
+    pointer-events: auto;
 }
 
 .button_stopped
 {
     font-family: Roboto, "Segoe UI", Tahoma, sans-serif; 
     background-color: darkred;
-	color: white;
-	border: 0;
-	width: 125px;
-	min-width: 125px;
+    color: white;
+    border: 0;
+    width: 125px;
+    min-width: 125px;
     border-radius: 13px;
     box-shadow: 5px 5px 5px #111;
-	outline: none;
-	position: relative;
-	float: right;
-	margin-right: 1%;
-	margin-top: .75em;
-	#left: 45%;
-	min-height: 35px;
-	pointer-events: auto;
+    outline: none;
+    position: relative;
+    float: right;
+    margin-right: -13%;
+    margin-top: .75em;
+    #left: 45%;
+    min-height: 35px;
+    pointer-events: auto;
 }
 
 .playText
 {
     font-family: Roboto, "Segoe UI", Tahoma, sans-serif; 
     background-color: darkslateblue;
-	color: white;
-	border: 0;
-	width: 55%;
-	min-width: 55%;
+    color: white;
+    border: 0;
+    width: 55%;
+    min-width: 55%;
     border-radius: 13px;
     box-shadow: 5px 5px 5px #111;
-	outline: none;
-	#margin-left: 15%;
-	#position: fixed;
-	float: right;
-	#margin-right: 50%;
-	left: 15%;
-	margin-top: .75em;
-	min-height: 35px;
-	line-height: 25px;
-	pointer-events: auto;
+    outline: none;
+    #margin-left: 15%;
+    #position: fixed;
+    float: right;
+    #margin-right: 50%;
+    left: 15%;
+    margin-top: .75em;
+    min-height: 35px;
+    line-height: 25px;
+    pointer-events: auto;
+    position: relative;
+	margin-right: 15%;
 }
 
 .albumArt
 {
-	max-height: 25px; 
-	max-width: 25px; 
-	float: left; 
-	margin-left: 5%;
+    max-height: 25px; 
+    max-width: 25px; 
+    float: left; 
+    margin-left: 5%;
 }
 
 .button:hover
 {
     background-color: seagreen;
-	outline: none;
+    outline: none;
 }
 
 .playText:hover
@@ -154,7 +165,7 @@ body {
 .button_stopped:hover
 {
     background-color: red;
-	outline: none;
+    outline: none;
 }
 
 /* ————————————————————–
@@ -197,9 +208,9 @@ body {
   }
 
 label.tree_label { 
-	background-color: #333;
-	color: white;
-	cursor: pointer; 
+    background-color: #333;
+    color: white;
+    cursor: pointer; 
 }
 
 label.tree_label:hover { color: slateblue; }
@@ -314,7 +325,7 @@ $xxlarge-up: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)})";
   body {
     background: #222;
     height: 100%;
-	font-size: 1.2em;
+    font-size: 1.2em;
   }
   
   .heading {
@@ -323,7 +334,7 @@ $xxlarge-up: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)})";
     text-align: center;
     background: -webkit-linear-gradient(left, #33235B, #D62229, #E97639, #792042, #33235B);
     background: linear-gradient(left, #33235B, #D62229, #E97639, #792042, #33235B);
-	background-color: white;
+    background-color: white;
     padding-top: 5%;
     color: transparent;
     
@@ -403,7 +414,7 @@ $xxlarge-up: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)})";
 
 .main-container
 {
-	margin: auto;
+    margin: auto;
     border-radius: 10px;
     align-items: center; /* Use another value to see the result */
     width: 75%;

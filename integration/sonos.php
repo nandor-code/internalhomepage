@@ -261,7 +261,7 @@ function updateSonosButton( zone, state )
             stationName = " on " + state.currentTrack.stationName;
         }
 
-		updateObj.innerHTML = "<img class=\"albumArt\" src=\"" + state.currentTrack.absoluteAlbumArtUri + "\">" + state.currentTrack.title + stationName;
+		updateObj.innerHTML = "<div><img class=\"albumArt\" src=\"" + state.currentTrack.absoluteAlbumArtUri + "\"></div><div class=\"center__text\">" + state.currentTrack.title + stationName + "</div>";
 	}
 	
 	var updateObj = document.getElementById("toggle" + zone);
