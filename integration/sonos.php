@@ -248,7 +248,7 @@ function updateSonosButton( zone, state )
 	{
 		updateObj.innerHTML = "TV";
 	}
-	else if( state.playbackState === "STOPPED" )
+	else if( state.playbackState === "STOPPED" || state.playbackState === "PAUSED_PLAYBACK" )
 	{
 		updateObj.innerHTML = "None";
 	}
