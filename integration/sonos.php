@@ -254,7 +254,14 @@ function updateSonosButton( zone, state )
 	}
 	else
 	{
-		updateObj.innerHTML = "<img class=\"albumArt\" src=\"" + state.currentTrack.absoluteAlbumArtUri + "\">" + state.currentTrack.title + " on " + state.currentTrack.stationName;
+        var stationName = "";
+
+        if( state.currentTrack.stationName.length > 0 )
+        {
+            stationName = " on " + state.currentTrack.stationName;
+        }
+
+		updateObj.innerHTML = "<img class=\"albumArt\" src=\"" + state.currentTrack.absoluteAlbumArtUri + "\">" + state.currentTrack.title + stationName;
 	}
 	
 	var updateObj = document.getElementById("toggle" + zone);
