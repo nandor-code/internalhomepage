@@ -1,24 +1,46 @@
 <html>
 <head>
+<script>
+function swapbox(box)
+{
+	if( box.className === "box a" ) { return; }
+	console.log("We need to swap \'" + box.className + "\' with \'box a\'" );
+	
+	var boxas = document.getElementsByClassName("box a");
+	
+	if( boxas === undefined || boxas.length != 1 ) { console.log("cant find single box a"); return; }
+	
+	var boxa = boxas[0];
+	
+	boxa.className = box.className;
+	box.className  = "box a";
+}
+
+</script>
 <style>
 body {
 	background-color: #222;
 	overflow: hidden;
+    margin-right: 25px;
+    margin-bottom: 20px;
 }
-
-body {
-  margin: 20px;
+.main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-
 .wrapper {
         display: grid;
 		grid-gap: 5px;
-        grid-template-columns: [col1-start] 33%  [col2-start] 33% [col3-start];
-        grid-template-rows: [row1-start] 20% [row2-start] 20% [row3-start] 20% [row4-start] 20% [row5-start] 20% [row5-end];
-        #background-color: #fff;
-        #color: #444;
-		min-height: 100%;
-		min-width: 100%;
+        grid-template-columns: repeat(4,25%);
+        grid-template-rows: repeat(4,25%);
+        margin: 0 auto;
+        max-width: 100%;
+        max-height: 100%;
+        height: calc(100vw * .5625);
+        width: calc(95vh * 1.77);
     }
 
     .box {
@@ -29,53 +51,58 @@ body {
     }
 
     .a {
-        grid-column: col1-start / col3-start;
-        grid-row: row1-start / row5-start ;
+        grid-column: 1 / 4;
+        grid-row: 1 / 4;
     }
     .b {
-        grid-column: col1-start;
-        grid-row: row5-start;
+        grid-column: 1;
+        grid-row: 4 / 5;
     }
     .c {
-        grid-column: col3-start;
-        grid-row: row1-start / row2-start;
+        grid-column: 2;
+        grid-row: 4 / 5;
     }
     .d {
-        grid-column: col3-start ;
-        grid-row: row2-start ;
+        grid-column: 3 ;
+        grid-row: 4 / 5 ;
     }
     .e {
-        grid-column: col3-start ;
-        grid-row: row3-start ;
+        grid-column: 4 ;
+        grid-row: 1 ;
     }
 	.f {
-        grid-column: col3-start ;
-        grid-row: row4-start ;
+        grid-column: 4 ;
+        grid-row: 2 ;
     }
 	.g {
-        grid-column: col3-start ;
-        grid-row: row5-start ;
+        grid-column: 4 ;
+        grid-row: 3 ;
     }
 	.h {
-        grid-column: col2-start / col2-start;
-        grid-row: row5-start ;
+        grid-column: 4;
+        grid-row: 4 / 5;
+    }
+
+    .feedimg {
+        object-fit: contain;
     }
 
 </style>
 <title>NTSJ Cam Viewer</title>
 </head>
 <body>
-<div class='wrapper'>
-
-<div class='box h'><img src="http://san-zm.ntsj.com/zm/cgi-bin/nph-zms?mode=jpeg&scale=100&maxfps=30&monitor=1" sandbox="allow-forms allow scripts" width="100%" height="100%" scrolling="no" frameborder="0"></img></div>
-<div class='box b'><img src="http://san-zm.ntsj.com/zm/cgi-bin/nph-zms?mode=jpeg&scale=100&maxfps=30&monitor=2" sandbox="allow-forms allow scripts" width="100%" height="100%" scrolling="no" frameborder="0"></img></div>
-<div class='box c'><img src="http://san-zm.ntsj.com:30005/zm/cgi-bin/nph-zms?mode=jpeg&scale=100&maxfps=30&monitor=3" sandbox="allow-forms allow scripts" width="100%" height="100%" scrolling="no" frameborder="0"></img></div>
-<div class='box d'><img src="http://san-zm.ntsj.com:30004/zm/cgi-bin/nph-zms?mode=jpeg&scale=100&maxfps=30&monitor=4" sandbox="allow-forms allow scripts" width="100%" height="100%" scrolling="no" frameborder="0"></img></div>
-<div class='box e'><img src="http://san-zm.ntsj.com:30003/zm/cgi-bin/nph-zms?mode=jpeg&scale=100&maxfps=30&monitor=5" sandbox="allow-forms allow scripts" width="100%" height="100%" scrolling="no" frameborder="0"></img></div>
-<div class='box f'><img src="http://san-zm.ntsj.com:30001/zm/cgi-bin/nph-zms?mode=jpeg&scale=100&maxfps=30&monitor=6" sandbox="allow-forms allow scripts" width="100%" height="100%" scrolling="no" frameborder="0"></img></div>
-<div class='box g'><img src="http://san-zm.ntsj.com:30002/zm/cgi-bin/nph-zms?mode=jpeg&scale=100&maxfps=30&monitor=7" sandbox="allow-forms allow scripts" width="100%" height="100%" scrolling="no" frameborder="0"></img></div>
-<div class='box a'><img src="http://san-zm.ntsj.com:30005/zm/cgi-bin/nph-zms?mode=jpeg&scale=100&maxfps=30&monitor=8" sandbox="allow-forms allow scripts" width="100%" height="100%" scrolling="no" frameborder="0"></img></div>
-
+<div class='main'>
+    <div class='wrapper'>
+        <div class='box a'><img class="feedimg" src="http://san-zm.ntsj.com:30005/zm/cgi-bin/nph-zms?mode=jpeg&scale=100&maxfps=15&monitor=8" onclick="swapbox(this.parentElement)" sandbox="allow-forms allow scripts" width="100%" height="100%" scrolling="no" frameborder="0"></img></div>
+        <div class='box b'><img class="feedimg" src="http://san-zm.ntsj.com/zm/cgi-bin/nph-zms?mode=jpeg&scale=100&maxfps=15&monitor=2" onclick="swapbox(this.parentElement)" sandbox="allow-forms allow scripts" width="100%" height="100%" scrolling="no" frameborder="0"></img></div>
+        <div class='box c'><img class="feedimg" src="http://san-zm.ntsj.com/zm/cgi-bin/nph-zms?mode=jpeg&scale=100&maxfps=15&monitor=1" onclick="swapbox(this.parentElement)" sandbox="allow-forms allow scripts" width="100%" height="100%" scrolling="no" frameborder="0"></img></div>
+        <div class='box d'><img class="feedimg" src="http://san-zm.ntsj.com:30001/zm/cgi-bin/nph-zms?mode=jpeg&scale=100&maxfps=15&monitor=6" onclick="swapbox(this.parentElement)" sandbox="allow-forms allow scripts" width="100%" height="100%" scrolling="no" frameborder="0"></img></div>
+        <div class='box e'><img class="feedimg" src="http://san-zm.ntsj.com:30005/zm/cgi-bin/nph-zms?mode=jpeg&scale=100&maxfps=15&monitor=3" onclick="swapbox(this.parentElement)" sandbox="allow-forms allow scripts" width="100%" height="100%" scrolling="no" frameborder="0"></img></div>
+        <div class='box f'><img class="feedimg" src="http://san-zm.ntsj.com:30004/zm/cgi-bin/nph-zms?mode=jpeg&scale=100&maxfps=15&monitor=4" onclick="swapbox(this.parentElement)" sandbox="allow-forms allow scripts" width="100%" height="100%" scrolling="no" frameborder="0"></img></div>
+        <div class='box h'><img class="feedimg" src="http://san-zm.ntsj.com:30003/zm/cgi-bin/nph-zms?mode=jpeg&scale=100&maxfps=15&monitor=5" onclick="swapbox(this.parentElement)" sandbox="allow-forms allow scripts" width="100%" height="100%" scrolling="no" frameborder="0"></img></div>
+        <div class='box g'><img class="feedimg" src="http://san-zm.ntsj.com:30002/zm/cgi-bin/nph-zms?mode=jpeg&scale=100&maxfps=15&monitor=7" onclick="swapbox(this.parentElement)" sandbox="allow-forms allow scripts" width="100%" height="100%" scrolling="no" frameborder="0"></img></div>
+    </div>
 </div>
 </body>
 </html>
+
